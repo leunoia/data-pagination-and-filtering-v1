@@ -43,12 +43,28 @@ function pageMaker (list, page) {
          spanJoin.className = 'date';
          const date = Object.values(data[i])[2];
          spanJoin.innerHTML = `Joined: ${Object.values(date)[0]}`
-         divJoin.appendChild(spanJoin)
+         divJoin.appendChild(spanJoin);
       }
    }
 
 }
+
+function pagButtons (list){
+   const listLeng = list.length/9;
+   const ul = document.querySelector('.link-list');
+   ul.innerHTML = '';
+   for (let i = 0; i < listLeng; i++){
+      const li = document.createElement('li');
+      const pageButton = document.createElement ('button');
+      const pageNumber = i + 1;
+      pageButton.textContent = pageNumber;
+      pageButton.type = "button";
+      li.insertAdjacentElement("beforeend",pageButton);
+      ul.appendChild(li);
+   }
+}
 pageMaker (data, 4)
+pagButtons(data)
 
 /*
 For assistance:
