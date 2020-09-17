@@ -3,6 +3,8 @@ Treehouse Techdegree:
 FSJS Project 2 - Data Pagination and Filtering
 */
 const ul = document.querySelector('.student-list');
+
+// This function is used to create a page which displays 9 students and the various information about each student
 function showPage (list, page) {
    const startIndex = (page  * 9) - 9;
    const endIndex = page * 9;
@@ -47,7 +49,7 @@ function showPage (list, page) {
       }
    }
 }
-
+// This function creates the pages buttons at the bottom of the page. 
 function pagButtons (list){
    const listLeng = list.length/9;
    const ul = document.querySelector('.link-list');
@@ -62,10 +64,9 @@ function pagButtons (list){
       ul.appendChild(li);
    }
 }
-
-showPage (data, 4)
+showPage (data, 1)
 pagButtons(data)
-
+// This is an event listener that listens for a click event and prints new page when click event is on page button
 const firstButton = document.querySelector('button');
 firstButton.className = 'active';
 const ulLink = document.querySelector('.link-list');
@@ -82,26 +83,75 @@ ulLink.addEventListener('click', (e)=> {
    }
 });
 
-/*
-For assistance:
-   Check out the "Project Resources" section of the Instructions tab: https://teamtreehouse.com/projects/data-pagination-and-filtering#instructions
-   Reach out in your Slack community: https://treehouse-fsjs-102.slack.com/app_redirect?channel=unit-2
-*/
+// *Extra Credit*
+
+// This function creates a search bar which the use can search the list of names.
+
+const header = document.querySelector('header');
+function searchBar (){
+   const label = document.createElement ('label');
+   label.for = 'search';
+   label.className = 'student-search';
+   const input = document.createElement('input');
+   input.id = 'search';
+   input.placeholder = 'Search by name...'
+   label.insertAdjacentElement('afterbegin', input);
+   const button = document.createElement('button');
+   button.type = 'button';
+   const img = document.createElement ('img');
+   img.src = 'img/icn-search.svg';
+   img.alt = 'Search Icon';
+   label.insertAdjacentElement('beforeend',button);
+   button.insertAdjacentElement('beforeend',img)
+   header.insertAdjacentElement("beforeend", label);
+}
+searchBar();
+
+// This function adds functionality to the search bar. 
+
+const searchInput = document.querySelector('#search');
+const searchButton = document.querySelector('.student-search button');
 
 
+// function searchFunc (input, list) {
+  
+//    for (let i = 0; i < data.length;i++){
+//       const names = list[i].textContent;
+//       if(names.toLowerCase().includes(input.value.toLowerCase())){
+//          console.log('hello');
+//       }
 
-/*
-Create the `showPage` function
-This function will create and insert/append the elements needed to display a "page" of nine students
-*/
-
-
-
-/*
-Create the `addPagination` function
-This function will create and insert/append the elements needed for the pagination buttons
-*/
+//    }
+// }
 
 
+searchButton.addEventListener('click',()=> {
 
-// Call functions
+   for (let i = 0; i < data.length; i++){
+      const dataItem = data[i];
+      const namesObject = Object.values(data[i])[0];
+      let fullNames = '';
+      let names = [];
+
+      fullNames = `${Object.values(namesObject)[1]} ${Object.values(namesObject)[2]}`; 
+
+      if(fullNames[i].includes(searchInput.value.toLowerCase())){
+         names.push(dataItem[i]);
+         showPage(names,1);
+      }
+
+   }
+});
+
+// searchInput.addEventListener('keyup',(e)=> {
+//    for (let i = 0; i < data.length;i++){
+//    const studentInfo = Object.values(data[i])[0];
+//    const name = Object.values(studentInfo)[1]
+//    const input = searchButton.value;
+   
+//    }
+   
+   // if (name.includes(input)) {
+   
+   
+// });
