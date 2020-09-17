@@ -13,8 +13,8 @@ function showPage (list, page) {
       if ( i >= startIndex  && i < endIndex){
          const li = document.createElement('li');
          li.className = 'student-item cf';
-         ul.appendChild(li);
-
+				 ul.appendChild(li);
+				 
          const divDetails = document.createElement ('div');
          divDetails.className = 'student-details';
          li.appendChild(divDetails);
@@ -22,18 +22,18 @@ function showPage (list, page) {
          const img = document.createElement('img');
          img.className = 'avatar';
          img.alt = 'Profile Picture';
-         const linkSrc = Object.values(data[i])[3];
+         const linkSrc = Object.values(list[i])[3];
          img.src = Object.values(linkSrc)[0];
          divDetails.insertAdjacentElement ("afterbegin", img);
          
          const spanDet = document.createElement('span');
          spanDet.className = 'email';
-         const dataEmail = Object.values(data[i])[1];
+         const dataEmail = Object.values(list[i])[1];
          spanDet.textContent = dataEmail;
          divDetails.insertAdjacentElement("beforeend", spanDet)
 
          const h3 = document.createElement('h3');
-         const name = Object.values(data[i])[0];
+         const name = Object.values(list[i])[0];
          h3.textContent = `${Object.values(name)[1]} ${Object.values(name)[2]}`;
          spanDet.insertAdjacentElement("beforebegin",h3);
 
@@ -43,14 +43,14 @@ function showPage (list, page) {
 
          const spanJoin = document.createElement('span');
          spanJoin.className = 'date';
-         const date = Object.values(data[i])[2];
+         const date = Object.values(list[i])[2];
          spanJoin.innerHTML = `Joined: ${Object.values(date)[0]}`
          divJoin.appendChild(spanJoin);
       }
    }
 }
 // This function creates the pages buttons at the bottom of the page. 
-function pagButtons (list){
+function paginationTemplate (list){
    const listLeng = list.length/9;
    const ul = document.querySelector('.link-list');
    ul.innerHTML = '';
@@ -65,7 +65,7 @@ function pagButtons (list){
    }
 }
 showPage (data, 1)
-pagButtons(data)
+paginationTemplate(data)
 // This is an event listener that listens for a click event and prints new page when click event is on page button
 const firstButton = document.querySelector('button');
 firstButton.className = 'active';
@@ -89,6 +89,9 @@ ulLink.addEventListener('click', (e)=> {
 
 const header = document.querySelector('header');
 function searchBar (){
+	 const form = document.createElement('form');
+	 form.id = 'search-form';
+	 form.action = 'GET';
    const label = document.createElement ('label');
    label.for = 'search';
    label.className = 'student-search';
@@ -97,19 +100,19 @@ function searchBar (){
    input.placeholder = 'Search by name...'
    label.insertAdjacentElement('afterbegin', input);
    const button = document.createElement('button');
-   button.type = 'button';
    const img = document.createElement ('img');
    img.src = 'img/icn-search.svg';
    img.alt = 'Search Icon';
    label.insertAdjacentElement('beforeend',button);
-   button.insertAdjacentElement('beforeend',img)
-   header.insertAdjacentElement("beforeend", label);
+	 button.insertAdjacentElement('beforeend',img)
+	 form.insertAdjacentElement('afterbegin', label);
+   header.insertAdjacentElement("beforeend", form);
 }
 searchBar();
 
 // This function adds functionality to the search bar. 
 
-const searchInput = document.querySelector('#search');
+const searchForm = document.querySelector('#search-form');
 const searchButton = document.querySelector('.student-search button');
 
 
@@ -125,23 +128,27 @@ const searchButton = document.querySelector('.student-search button');
 // }
 
 
-searchButton.addEventListener('click',()=> {
-
-   for (let i = 0; i < data.length; i++){
-      const dataItem = data[i];
-      const namesObject = Object.values(data[i])[0];
-      let fullNames = '';
-      let names = [];
-
-      fullNames = `${Object.values(namesObject)[1]} ${Object.values(namesObject)[2]}`; 
-
-      if(fullNames[i].includes(searchInput.value.toLowerCase())){
-         names.push(dataItem[i]);
-         showPage(names,1);
-      }
-
-   }
+searchForm.addEventListener('submit',(event) => {
+	event.preventDefault();
+	const input = event.target.querySelector('#search');
+	const names = filterFullNamesBySearch(data, input.value);
+	showPage(names, 1);
+	paginationTemplate(names);
 });
+
+function filterFullNamesBySearch (people, queryString) {
+
+	return people.filter(filter, queryString);
+
+	function filter(person) {
+		const name = getFullName(person).toLowerCase();
+		return name.includes(this);
+	}
+}
+
+function getFullName(person) {
+	return `${person.name.first} ${person.name.last}`;
+}
 
 // searchInput.addEventListener('keyup',(e)=> {
 //    for (let i = 0; i < data.length;i++){
