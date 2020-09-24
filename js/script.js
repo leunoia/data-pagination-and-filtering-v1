@@ -115,6 +115,7 @@ searchBar();
 
 const searchInput = document.querySelector('#search');
 const searchButton = document.querySelector('.student-search button');
+const divPage = document.querySelector('.page');
 
 let fullNames = [];
 let newData = [];
@@ -134,16 +135,15 @@ searchButton.addEventListener('click', (e) => {
 			fullNames[i].toLowerCase().includes(searchInput.value.toLowerCase())
 		) {
 			newData.push(data[i]);
-			showPage(newData, 1);
-		} else if (searchInput.value.length === 0) {
-			console.log(searchInput.value.length);
-
-			// const h3 = document.createElement('h3');
-			// h3.textContent = 'No Seach Results...';
-			// ul.appendChild(h3);
+		} else {
+			console.log('hello');
+			const h3 = document.createElement('h3');
+			h3.textContent = 'No Seach Results...';
+			divPage.appendChild(h3);
+			return;
 		}
 	}
-	showPage(newData, 1);
+
 	paginationTemplate(newData);
 });
 
@@ -159,12 +159,6 @@ searchInput.addEventListener('keyup', (e) => {
 		) {
 			newData.push(data[i]);
 			showPage(newData, 1);
-		} else if (searchInput.value.length === 0) {
-			console.log(searchInput.value.length);
-
-			// const h3 = document.createElement('h3');
-			// h3.textContent = 'No Seach Results...';
-			// ul.appendChild(h3);
 		}
 	}
 	showPage(newData, 1);
