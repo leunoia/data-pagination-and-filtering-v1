@@ -2,6 +2,8 @@
 Treehouse Techdegree:
 FSJS Project 2 - Data Pagination and Filtering
 */
+// This accesses the unordered list from the document
+
 const ul = document.querySelector('.student-list');
 
 // This function is used to create a page which displays 9 students and the various information about each student
@@ -67,8 +69,10 @@ function paginationTemplate(list) {
 		ul.appendChild(li);
 	}
 }
+
 showPage(data, 1);
 paginationTemplate(data);
+
 // This is an event listener that listens for a click event and prints new page when click event is on page button
 const firstButton = document.querySelector('button');
 firstButton.className = 'active';
@@ -87,10 +91,8 @@ ulLink.addEventListener('click', (e) => {
 });
 
 // *Extra Credit*
-
-// This function creates a search bar which the use can search the list of names.
-
 const header = document.querySelector('header');
+// This function creates a search bar which the use can search the list of names.
 function searchBar() {
 	const label = document.createElement('label');
 	label.for = 'search';
@@ -111,8 +113,7 @@ function searchBar() {
 }
 searchBar();
 
-// This function adds functionality to the search bar.
-
+// These access the search input and click button for the search function, along with the div where the "No Results Found..." message will go.
 const searchInput = document.querySelector('#search');
 const searchButton = document.querySelector('.student-search button');
 const divPage = document.querySelector('.page');
@@ -146,7 +147,7 @@ searchButton.addEventListener('click', (e) => {
 
 	paginationTemplate(newData);
 });
-
+// This is an event listener that listen to keyup events in order to make the search function more reactive while the user searches.
 searchInput.addEventListener('keyup', (e) => {
 	emptyArray(newData);
 	for (let i = 0; i < data.length; i++) {
