@@ -5,6 +5,7 @@ FSJS Project 2 - Data Pagination and Filtering
 const ul = document.querySelector('.student-list');
 
 // This function is used to create a page which displays 9 students and the various information about each student
+
 function showPage(list, page) {
 	const startIndex = page * 9 - 9;
 	const endIndex = page * 9;
@@ -91,72 +92,81 @@ ulLink.addEventListener('click', (e) => {
 
 const header = document.querySelector('header');
 function searchBar() {
-	const form = document.createElement('form');
-	form.id = 'search-form';
-	form.action = 'GET';
 	const label = document.createElement('label');
 	label.for = 'search';
 	label.className = 'student-search';
 	const input = document.createElement('input');
 	input.id = 'search';
 	input.placeholder = 'Search by name...';
+	input.type = 'text';
 	label.insertAdjacentElement('afterbegin', input);
 	const button = document.createElement('button');
+	button.type = 'button';
 	const img = document.createElement('img');
 	img.src = 'img/icn-search.svg';
 	img.alt = 'Search Icon';
 	label.insertAdjacentElement('beforeend', button);
 	button.insertAdjacentElement('beforeend', img);
-	form.insertAdjacentElement('afterbegin', label);
-	header.insertAdjacentElement('beforeend', form);
+	header.insertAdjacentElement('beforeend', label);
 }
 searchBar();
 
 // This function adds functionality to the search bar.
 
-const searchForm = document.querySelector('#search-form');
+const searchInput = document.querySelector('#search');
 const searchButton = document.querySelector('.student-search button');
 
-// function searchFunc (input, list) {
+let fullNames = [];
+let newData = [];
+// This function emptys the array to reset it each time
+function emptyArray(array) {
+	array.length = 0;
+}
+// This is an event handler that deals with a search event.
+searchButton.addEventListener('click', (e) => {
+	emptyArray(newData);
+	for (let i = 0; i < data.length; i++) {
+		let namesObject = Object.values(data[i])[0];
+		fullNames.push(
+			`${Object.values(namesObject)[1]} ${Object.values(namesObject)[2]}`
+		);
+		if (
+			fullNames[i].toLowerCase().includes(searchInput.value.toLowerCase())
+		) {
+			newData.push(data[i]);
+			showPage(newData, 1);
+		} else if (searchInput.value.length === 0) {
+			console.log(searchInput.value.length);
 
-//    for (let i = 0; i < data.length;i++){
-//       const names = list[i].textContent;
-//       if(names.toLowerCase().includes(input.value.toLowerCase())){
-//          console.log('hello');
-//       }
-
-//    }
-// }
-
-searchForm.addEventListener('submit', (event) => {
-	event.preventDefault();
-	const input = event.target.querySelector('#search');
-	const names = filterFullNamesBySearch(data, input.value);
-	showPage(names, 1);
-	paginationTemplate(names);
+			// const h3 = document.createElement('h3');
+			// h3.textContent = 'No Seach Results...';
+			// ul.appendChild(h3);
+		}
+	}
+	showPage(newData, 1);
+	paginationTemplate(newData);
 });
 
-function filterFullNamesBySearch(people, queryString) {
-	return people.filter(filter, queryString);
+searchInput.addEventListener('keyup', (e) => {
+	emptyArray(newData);
+	for (let i = 0; i < data.length; i++) {
+		let namesObject = Object.values(data[i])[0];
+		fullNames.push(
+			`${Object.values(namesObject)[1]} ${Object.values(namesObject)[2]}`
+		);
+		if (
+			fullNames[i].toLowerCase().includes(searchInput.value.toLowerCase())
+		) {
+			newData.push(data[i]);
+			showPage(newData, 1);
+		} else if (searchInput.value.length === 0) {
+			console.log(searchInput.value.length);
 
-	function filter(person) {
-		const name = getFullName(person).toLowerCase();
-		return name.includes(this);
+			// const h3 = document.createElement('h3');
+			// h3.textContent = 'No Seach Results...';
+			// ul.appendChild(h3);
+		}
 	}
-}
-
-function getFullName(person) {
-	return `${person.name.first} ${person.name.last}`;
-}
-
-// searchInput.addEventListener('keyup',(e)=> { n
-//    for (let i = 0; i < data.length;i++){
-//    const studentInfo = Object.values(data[i])[0];
-//    const name = Object.values(studentInfo)[1]
-//    const input = searchButton.value;
-
-//    }
-
-// if (name.includes(input)) {
-
-// });
+	showPage(newData, 1);
+	paginationTemplate(newData);
+});
