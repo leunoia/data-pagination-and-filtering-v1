@@ -117,7 +117,7 @@ searchBar();
 const searchInput = document.querySelector('#search');
 const searchButton = document.querySelector('.student-search button');
 const divPage = document.querySelector('.page');
-
+const h3 = document.createElement('h3');
 let fullNames = [];
 let newData = [];
 // This function emptys the array to reset it each time
@@ -125,31 +125,34 @@ function emptyArray(array) {
 	array.length = 0;
 }
 // This is an event handler that deals with a search event.
-searchButton.addEventListener('click', (e) => {
-	emptyArray(newData);
-	for (let i = 0; i < data.length; i++) {
-		let namesObject = Object.values(data[i])[0];
-		fullNames.push(
-			`${Object.values(namesObject)[1]} ${Object.values(namesObject)[2]}`
-		);
-		if (
-			fullNames[i].toLowerCase().includes(searchInput.value.toLowerCase())
-		) {
-			newData.push(data[i]);
-		} else {
-			console.log('hello');
-			const h3 = document.createElement('h3');
-			h3.textContent = 'No Seach Results...';
-			divPage.appendChild(h3);
-			return;
-		}
-	}
+// searchButton.addEventListener('click', (e) => {
+// 	emptyArray(newData);
+// 	h3.textContent = '';
+// 	for (let i = 0; i < data.length; i++) {
+// 		let namesObject = Object.values(data[i])[0];
+// 		fullNames.push(
+// 			`${Object.values(namesObject)[1]} ${Object.values(namesObject)[2]}`
+// 		);
+// 		if (
+// 			fullNames[i].toLowerCase().includes(searchInput.value.toLowerCase())
+// 		) {
+// 			newData.push(data[i]);
+// 			showPage(newData, 1);
+// 		} else {
 
-	paginationTemplate(newData);
-});
+// 			console.log('hello');
+// 			h3.textContent = 'No Seach Results...';
+// 			divPage.appendChild(h3);
+// 			return;
+// 		}
+// 	}
+
+// 	paginationTemplate(newData);
+// });
 // This is an event listener that listen to keyup events in order to make the search function more reactive while the user searches.
 searchInput.addEventListener('keyup', (e) => {
 	emptyArray(newData);
+	h3.textContent = '';
 	for (let i = 0; i < data.length; i++) {
 		let namesObject = Object.values(data[i])[0];
 		fullNames.push(
@@ -159,8 +162,11 @@ searchInput.addEventListener('keyup', (e) => {
 			fullNames[i].toLowerCase().includes(searchInput.value.toLowerCase())
 		) {
 			newData.push(data[i]);
-			showPage(newData, 1);
 		}
+	}
+	if (newData.length === 0) {
+		h3.textContent = 'No Seach Results...';
+		divPage.appendChild(h3);
 	}
 	showPage(newData, 1);
 	paginationTemplate(newData);
