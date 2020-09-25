@@ -124,31 +124,6 @@ let newData = [];
 function emptyArray(array) {
 	array.length = 0;
 }
-// This is an event handler that deals with a search event.
-// searchButton.addEventListener('click', (e) => {
-// 	emptyArray(newData);
-// 	h3.textContent = '';
-// 	for (let i = 0; i < data.length; i++) {
-// 		let namesObject = Object.values(data[i])[0];
-// 		fullNames.push(
-// 			`${Object.values(namesObject)[1]} ${Object.values(namesObject)[2]}`
-// 		);
-// 		if (
-// 			fullNames[i].toLowerCase().includes(searchInput.value.toLowerCase())
-// 		) {
-// 			newData.push(data[i]);
-// 			showPage(newData, 1);
-// 		} else {
-
-// 			console.log('hello');
-// 			h3.textContent = 'No Seach Results...';
-// 			divPage.appendChild(h3);
-// 			return;
-// 		}
-// 	}
-
-// 	paginationTemplate(newData);
-// });
 // This is an event listener that listen to keyup events in order to make the search function more reactive while the user searches.
 searchInput.addEventListener('keyup', (e) => {
 	emptyArray(newData);
